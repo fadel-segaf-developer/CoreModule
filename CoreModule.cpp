@@ -1,7 +1,7 @@
 #include "CoreModule.h"
 #include "EntityObject.h"
 
-float CoreModule::fixedTime = 0.1f;
+int frame = 0;
 
 CoreModule::CoreModule() : started(false) {}
 
@@ -14,9 +14,8 @@ void CoreModule::Start() {
 }
 
 void CoreModule::Update() {
-    std::cout << "CoreModule Update\n";
+    //std::cout << "CoreModule Start\n";
 }
-
 void CoreModule::FixedUpdate() {
     std::cout << "CoreModule FixedUpdate\n";
 }
@@ -29,10 +28,4 @@ void CoreModule::SetEntityObject(std::shared_ptr<EntityObject> entity) {
     this->entityObject = entity;
 }
 
-void CoreModule::SetFixedUpdateTime(float time) {
-    fixedTime = time;
-}
 
-float CoreModule::GetFixedUpdateTime() {
-    return fixedTime;
-}

@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChronoMaster.cpp" />
     <ClCompile Include="CoreModule.cpp" />
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChronoMaster.h" />
     <ClInclude Include="CoreModule.h" />
     <ClInclude Include="EntityObject.h" />
   </ItemGroup>

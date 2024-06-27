@@ -24,12 +24,18 @@
     <ClCompile Include="EntityObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChronoMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EntityObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChronoMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
