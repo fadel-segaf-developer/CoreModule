@@ -2,6 +2,9 @@
 #include "EntityObject.h"
 
 int main() {
+    // Set the fixed update time interval for all CoreModule instances
+    CoreModule::SetFixedUpdateTime(0.05f);
+
     // Create an entity which automatically initializes with CoreModule
     std::vector<std::shared_ptr<EntityObject>> entities;
 

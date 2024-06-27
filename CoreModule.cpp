@@ -1,6 +1,8 @@
 #include "CoreModule.h"
 #include "EntityObject.h"
 
+float CoreModule::fixedTime = 0.1f;
+
 CoreModule::CoreModule() : started(false) {}
 
 void CoreModule::Awake() {
@@ -25,4 +27,12 @@ void CoreModule::OnDestroy() {
 
 void CoreModule::SetEntityObject(std::shared_ptr<EntityObject> entity) {
     this->entityObject = entity;
+}
+
+void CoreModule::SetFixedUpdateTime(float time) {
+    fixedTime = time;
+}
+
+float CoreModule::GetFixedUpdateTime() {
+    return fixedTime;
 }

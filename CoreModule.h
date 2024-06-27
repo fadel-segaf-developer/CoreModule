@@ -20,11 +20,16 @@ public:
     // Set the entity object this module is attached to
     void SetEntityObject(std::shared_ptr<EntityObject> entity);
 
+    // Static property for fixed update time interval
+    static void SetFixedUpdateTime(float time);
+    static float GetFixedUpdateTime();
+
 protected:
     std::weak_ptr<EntityObject> entityObject; // Reference to the entity object
 
 private:
     bool started; // Tracks whether Start function has been called
+    static float fixedTime; // Static member variable for fixed update time interval
 };
 
 #endif // COREMODULE_H
