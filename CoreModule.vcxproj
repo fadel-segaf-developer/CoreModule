@@ -128,12 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CoreModule.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreModule.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="EntityObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

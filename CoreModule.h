@@ -3,11 +3,8 @@
 
 #include <iostream>
 #include <memory>
-#include <vector>
 
-using namespace std;
-
-class GameObject; // Forward declaration
+class EntityObject; // Forward declaration
 
 class CoreModule {
 public:
@@ -20,25 +17,14 @@ public:
     virtual void FixedUpdate();
     virtual void OnDestroy();
 
-    // Initialization function to call all lifecycle methods
-    void Initialize();
-
-    // Attach this module to a game object
-    void AttachToGameObject(shared_ptr<GameObject> gameObject);
-
-    // Get the game object this module is attached to
-    std::shared_ptr<GameObject> GetGameObject() const;
+    // Set the entity object this module is attached to
+    void SetEntityObject(std::shared_ptr<EntityObject> entity);
 
 protected:
-    // Reference to the game object this module is attached to
-    std::weak_ptr<GameObject> gameObject;
+    std::weak_ptr<EntityObject> entityObject; // Reference to the entity object
 
 private:
-    // Helper function to automatically call lifecycle functions
-    void AutoCallLifecycleFunctions();
-
-    // Tracks whether Start function has been called
-    bool started;
+    bool started; // Tracks whether Start function has been called
 };
 
 #endif // COREMODULE_H

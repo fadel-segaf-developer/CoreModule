@@ -1,30 +1,39 @@
 #include <iostream>
-#include "CoreModule.h"
+#include "EntityObject.h"
 
 int main() {
-    // Initialize your CoreModule or other components here
-    std::shared_ptr<CoreModule> coreModule = make_shared<CoreModule>();
+    // Create an entity which automatically initializes with CoreModule
+    std::vector<std::shared_ptr<EntityObject>> entities;
 
-    // Other initialization logic...
+    // Create 10 entities
+    for (int i = 0; i < 10; ++i) {
+        auto entity = std::make_shared<EntityObject>();
+        entities.push_back(entity);
 
-    // Main loop
-    while (true) {
-        // Update your CoreModule or other components
-        coreModule->Update();
-
-        // Other update logic...
-
-        // Break the loop under some condition, such as game over
+        // Optionally add components to each entity
+        auto coreModule = entity->AddComponent<CoreModule>();
+        // Add other components as needed...
+    }
         
-        // Only for demonstration purposes, we break after a few iterations
+    //Create 1 unique entity
+    // 
+    // Main loop (for demonstration)
+    while (true) {
+        for (size_t i = 0; i < entities.size(); ++i) 
+        {
+            entities[i]->Update();
+            entities[i]->FixedUpdate();
+        }
+        // Break the loop under some condition, such as entity over
+
+        // Only for demonstration purposes, break after a few iterations
         static int iteration = 0;
-        if (++iteration >= 5) {
+        if (++iteration >= 10000) {
             break;
         }
     }
 
-    // Clean up resources and exit
-    // coreModule.reset(); // Not necessary due to smart pointers
+    // No need to explicitly call Destroy(); shared_ptr will handle cleanup
 
     return 0;
 }
