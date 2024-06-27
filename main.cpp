@@ -1,32 +1,29 @@
 #include <iostream>
-#include <vector>
+#include <thread>
 #include "EntityObject.h"
 #include "ChronoMaster.h"
+#include "EntityManager.h"
+#include "MainCharacter.h"
 
 int main() {
     ChronoMaster chronoMaster;
-    chronoMaster.Init(10.0,30); // Initialize ChronoMaster with maximum FPS (e.g., 240.0)
+    chronoMaster.Init(10,1000); //limit 10 FPS and 1 second update
 
-    std::vector<std::shared_ptr<EntityObject>> entities;
-
-    // Example: Create an entity which automatically initializes with CoreModule
-    auto uniqueEntity = std::make_shared<EntityObject>();
-    entities.push_back(uniqueEntity);
-    auto coreModule = uniqueEntity->AddComponent<CoreModule>();
+    // Create entities using the factory function
+    //auto entity1 = EntityObject::Create();
+    auto entity2 = MainCharacter::Create();
 
     while (true) {
-        // Check if it's time for FixedUpdate
-        if (chronoMaster.IsTimeFixedUpdate()) {
-            // Example: coreModule->FixedUpdate();
-        }
-
-        // Check if it's time for Update
         if (chronoMaster.IsTimeUpdate()) {
-            uniqueEntity->Update();
+            EntityManager::UpdateAll();
             chronoMaster.DebugFrameRendered();
         }
 
-        
+        if (chronoMaster.IsTimeFixedUpdate()) {
+            EntityManager::FixedUpdateAll();
+            
+        }
+
     }
 
     return 0;

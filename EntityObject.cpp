@@ -1,4 +1,13 @@
 #include "EntityObject.h"
+#include "EntityManager.h"
+
+std::shared_ptr<EntityObject> EntityObject::Create() {
+    auto entity = std::shared_ptr<EntityObject>(new EntityObject());
+    entity->Initialize();
+    EntityManager::AddEntity(entity);
+    entity->AddComponent<CoreModule>(); // Automatically add CoreModule after registering with EntityManager
+    return entity;
+}
 
 EntityObject::EntityObject() {
     std::cout << "EntityObject constructor\n";
