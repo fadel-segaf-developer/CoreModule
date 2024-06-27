@@ -14,7 +14,7 @@ void CoreModule::Start() {
 }
 
 void CoreModule::Update() {
-    //std::cout << "CoreModule Start\n";
+    std::cout << "CoreModule Update\n";
 }
 void CoreModule::FixedUpdate() {
     std::cout << "CoreModule FixedUpdate\n";
