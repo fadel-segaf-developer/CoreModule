@@ -29,8 +29,8 @@ Welcome to `coreModule`! This project is my attempt to replicate Unity's MonoBeh
 ### Building the Project
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/coreModule.git
-    cd coreModule
+    git clone https://github.com/fadel-segaf-developer/CoreModule.git
+    cd CoreModule
     ```
 
 2. Create a build directory and navigate to it:
