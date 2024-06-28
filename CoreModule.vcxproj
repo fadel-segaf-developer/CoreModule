@@ -129,17 +129,23 @@
   <ItemGroup>
     <ClCompile Include="ChronoMaster.cpp" />
     <ClCompile Include="CoreModule.cpp" />
+    <ClCompile Include="CustomScenario.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChronoMaster.h" />
     <ClInclude Include="CoreModule.h" />
+    <ClInclude Include="CustomScenario.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityObject.h" />
     <ClInclude Include="MainCharacter.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
