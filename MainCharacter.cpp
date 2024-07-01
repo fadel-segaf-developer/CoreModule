@@ -1,7 +1,7 @@
 #include "MainCharacter.h"
 #include "EntityManager.h"
 
-std::shared_ptr<MainCharacter> MainCharacter::Create() {
+std::shared_ptr<MainCharacter> MainCharacter::Create(const std::string& name) {
     auto entity = std::shared_ptr<MainCharacter>(new MainCharacter());
     entity->Initialize();
     EntityManager::AddEntity(entity);
@@ -9,9 +9,6 @@ std::shared_ptr<MainCharacter> MainCharacter::Create() {
     return entity;
 }
 
-MainCharacter::MainCharacter() {
-    std::cout << "MainCharacter created\n";
-}
 
 void MainCharacter::CustomFunction() {
     std::cout << "MainCharacter custom function\n";

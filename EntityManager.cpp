@@ -17,3 +17,14 @@ void EntityManager::FixedUpdateAll() {
         entity->FixedUpdate();
     }
 }
+
+std::vector<string> EntityManager::GetAllEntitiesName() {
+    std::vector<string> entityNames;
+    string entityName;
+    for (auto& entity : entities) {
+        entityName = entity->GetEntityName();
+        entityNames.push_back(entityName);
+
+    }
+    return entityNames;
+}

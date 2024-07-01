@@ -8,7 +8,7 @@
 
 class EntityObject : public std::enable_shared_from_this<EntityObject> {
 public:
-    static std::shared_ptr<EntityObject> Create();
+    static std::shared_ptr<EntityObject> Create(const std::string& i_entityName);
 
     // Lifecycle methods
     virtual void Initialize(); // Initialization function
@@ -20,11 +20,17 @@ public:
     template<typename T, typename... Args>
     std::shared_ptr<T> AddComponent(Args&&... args);
 
+    string GetEntityName();
+    void SetEntityName(string i_sName);
+
+
 protected:
-    EntityObject(); // Constructor is protected to allow access by derived classes
+    EntityObject() = default; // Constructor is protected to allow access by derived classes
 
 private:
     std::vector<std::shared_ptr<CoreModule>> components; // List of components
+    static bool isNameUnique(string i_name);
+    string entityName;
 };
 
 template<typename T, typename... Args>

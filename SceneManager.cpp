@@ -5,8 +5,8 @@ void SceneManager::PopulateScenes() {
     auto scene1 = std::make_shared<CustomScenario>("MainMenu");
     scenes[scene1->GetName()] = scene1;
 
-    auto scene2 = std::make_shared<CustomScenario>("PauseMenu");
-    scenes[scene2->GetName()] = scene2;
+    /*auto scene2 = std::make_shared<CustomScenario>("PauseMenu");
+    scenes[scene2->GetName()] = scene2;*/
 
     // Print all scene names
     for (const auto& pair : scenes) {

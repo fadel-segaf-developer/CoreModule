@@ -6,8 +6,9 @@
 class MainCharacter : public EntityObject {
 public:
     // Factory function to create an instance of MainCharacter
-    static std::shared_ptr<MainCharacter> Create();
-    MainCharacter();
+    static std::shared_ptr<MainCharacter> Create(const std::string& name);
+
+    MainCharacter() = default;
 
     void CustomFunction(); // Example of a unique function
 
