@@ -1,7 +1,7 @@
 #include "Scene.h"
 
-Scene::Scene(const std::string& name)
-    : name(name) 
+Scene::Scene(const std::string& name, SceneManager* i_pSceneManager)
+    :m_sSceneName(name)
 {
 
 }
@@ -21,6 +21,7 @@ void Scene::RemoveEntity(std::shared_ptr<EntityObject> entity) {
         entities.erase(it);
     }
 }
+
 
 void Scene::ClearEntities() {
     entities.clear();

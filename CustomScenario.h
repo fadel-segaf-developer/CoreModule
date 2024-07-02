@@ -6,9 +6,12 @@
 #include "EntityObject.h"
 #include "Scene.h"
 
-class CustomScenario : public EntityObject, public Scene {
+
+
+class CustomScenario : 
+    public Scene {
 public:
-    CustomScenario(const std::string& sceneName);
+    CustomScenario(SceneManager* m_pSceneManager);
 
     std::string GetName() const;
     void Initialize() override;

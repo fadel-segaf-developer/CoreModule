@@ -1,21 +1,33 @@
 #include "SceneManager.h"
+#include "CustomScenario.h"
 
-void SceneManager::PopulateScenes() {
-    // Initialize all scenes and add them to scenes map
-    auto scene1 = std::make_shared<CustomScenario>("MainMenu");
-    scenes[scene1->GetName()] = scene1;
+SceneManager::SceneManager() {
 
-    /*auto scene2 = std::make_shared<CustomScenario>("PauseMenu");
-    scenes[scene2->GetName()] = scene2;*/
+    addScene(new CustomScenario(this));
+}
 
-    // Print all scene names
-    for (const auto& pair : scenes) {
-        std::cout << "Scene Name: " << pair.first << std::endl;
-    }
+void SceneManager::SwitchScene(int& i_sceneNumber)
+{
+    auto mapScene = scenes.begin();
+    std::advance(mapScene, i_sceneNumber);
+    Scene* loadedScene = mapScene->second;
 }
 
 bool SceneManager::SceneExists(const std::string& sceneName) const {
     return scenes.find(sceneName) != scenes.end();
+}
+
+bool SceneManager::addScene(Scene* i_Scene)
+{
+    if (i_Scene == NULL)
+        return false;
+
+    if (scenes.find(i_Scene->GetName()) != scenes.end())
+        return false;
+
+    scenes[i_Scene->GetName()] = i_Scene;
+
+    return true;
 }
 
 

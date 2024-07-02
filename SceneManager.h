@@ -4,15 +4,20 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
-#include "CustomScenario.h"
+#include <map>
+
+class Scene;
 
 class SceneManager {
 public:
-    void PopulateScenes();
+    SceneManager();
     bool SceneExists(const std::string& sceneName) const;
+    void SwitchScene(int& i_sceneNumber);
 
 private:
-    std::unordered_map<std::string, std::shared_ptr<CustomScenario>> scenes;
+    bool addScene(Scene* i_Scene);
+    std::map<std::string, Scene*> scenes;
+    bool Debug = true;
 };
 
 #endif // SCENEMANAGER_H

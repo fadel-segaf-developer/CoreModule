@@ -1,8 +1,9 @@
 #include "CustomScenario.h"
 #include "MainCharacter.h"
 
-CustomScenario::CustomScenario(const std::string& sceneName) : EntityObject(), Scene(sceneName), m_sceneName(sceneName) {
-    std::cout << "CustomScenario with Scene '" << sceneName << "' created\n";
+CustomScenario::CustomScenario(SceneManager* i_pSceneManager) : 
+    Scene(m_sceneName, i_pSceneManager), m_sceneName("CustomScenario"){
+    std::cout << "CustomScenario with Scene '" << m_sceneName << "' created\n";
     Initialize();
 }
 
