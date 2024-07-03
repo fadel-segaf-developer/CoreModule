@@ -11,8 +11,6 @@ public:
     static void UpdateAll();
     static void FixedUpdateAll();
     static std::vector<string> GetAllEntitiesName();
-
-private:
     static std::vector<std::shared_ptr<EntityObject>> entities;
 };
 

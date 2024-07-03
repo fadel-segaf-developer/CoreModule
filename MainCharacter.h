@@ -2,6 +2,7 @@
 #define MAINCHARACTER_H
 
 #include "EntityObject.h"
+#include <chrono>
 
 class MainCharacter : public EntityObject {
 public:
@@ -12,7 +13,12 @@ public:
 
     void CustomFunction(); // Example of a unique function
 
+    void Initialize() override;
     void Update() override;
+
+    int x = 0;
+    string nameObj = "";
+
 };
 
 #endif // MAINCHARACTER_H

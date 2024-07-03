@@ -17,7 +17,7 @@ void CoreModule::Update() {
     std::cout << "CoreModule Update\n";
 }
 void CoreModule::FixedUpdate() {
-    std::cout << "CoreModule FixedUpdate\n";
+    //std::cout << "CoreModule FixedUpdate\n";
 }
 
 void CoreModule::OnDestroy() {

@@ -8,7 +8,7 @@
 
 int main() {
     ChronoMaster chronoMaster;
-    chronoMaster.Init(10,1000); //limit 10 FPS and 1 second update
+    chronoMaster.Init(60,1000); //limit 10 FPS and 1 second update
     SceneManager sceneManager;
 
     // Create entities using the factory function
@@ -19,7 +19,7 @@ int main() {
     while (true) {
         if (chronoMaster.IsTimeUpdate()) {
             EntityManager::UpdateAll();
-            //chronoMaster.DebugFrameRendered();
+            chronoMaster.DebugFrameRendered();
         }
         if (chronoMaster.IsTimeFixedUpdate()) {
             EntityManager::FixedUpdateAll();

@@ -1,25 +1,45 @@
 #include "EntityObject.h"
 #include "EntityManager.h"
 
-std::shared_ptr<EntityObject> EntityObject::Create(const std::string& i_entityName) {
-
-    if (isNameUnique(i_entityName))
-    {
-        auto entity = std::shared_ptr<EntityObject>(new EntityObject());
-        entity->SetEntityName(i_entityName);
-        entity->Initialize();
-
-        EntityManager::AddEntity(entity);
-        entity->AddComponent<CoreModule>(); // Automatically add CoreModule after registering with EntityManager
-        return entity;
+string Uniquifier(string i_name)
+{
+    string unqName = i_name;
+    int counter = 0;
+    for (const auto& existingName : EntityManager::GetAllEntitiesName()) {
+        while (existingName == unqName) {
+            unqName = i_name +"_"+ to_string(counter);
+            counter += 1;
+        }
     }
+    return unqName;
+    
+}
+
+
+
+std::shared_ptr<EntityObject> EntityObject::Create(const std::string& i_entityName, SceneManager* i_pSceneManger, Scene* i_Scene) {
+
+    string nameEnt;
+    
+    
+    nameEnt = Uniquifier(i_entityName);
+
+    auto entity = std::shared_ptr<EntityObject>(new EntityObject());
+    entity->SetEntityName(nameEnt);
+    i_pSceneManger->storeEntityData(i_Scene, entity);
+    entity->Initialize();
+
+    EntityManager::AddEntity(entity);
+    entity->AddComponent<CoreModule>(); // Automatically add CoreModule after registering with EntityManager
+    return entity;
+
     return nullptr;
 }
 
 
 
 void EntityObject::Initialize() {
-    std::cout << "EntityObject " << entityName << "initialized\n";
+   //std::cout << "EntityObject " << entityName << " initialized\n";
 }
 
 void EntityObject::Update() {

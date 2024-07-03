@@ -5,10 +5,13 @@
 #include <vector>
 #include <memory>
 #include "CoreModule.h"
+#include "SceneManager.h"
+
+class Scene;
 
 class EntityObject : public std::enable_shared_from_this<EntityObject> {
 public:
-    static std::shared_ptr<EntityObject> Create(const std::string& i_entityName);
+    static std::shared_ptr<EntityObject> Create(const std::string& i_entityName, SceneManager* i_pSceneManger, Scene* i_Scene);
 
     // Lifecycle methods
     virtual void Initialize(); // Initialization function
