@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <mutex>
 
-const int totalTasks = 5000000;
+const int totalTasks = 0;
 std::mutex mtx; // Mutex for synchronization
 
 CustomScenario::CustomScenario(SceneManager* i_pSceneManager) : 
@@ -72,14 +72,12 @@ void CustomScenario::UseThread()
 void CustomScenario::Initialize() {
     std::cout << "CustomScenario Init\n";
     
-    /*for (int i = 1; i < 5000; i++)
+   /* for (int i = 1; i < 5000; i++)
     {
         auto AutoEntity = EntityObject::Create("Obj", m_pSceneManager, this);
     }*/
     
     UseThread();
-    
-
 }
 
 
