@@ -1,6 +1,6 @@
-# coreModule
+# CoreModule
 
-Welcome to `coreModule`! This project is my attempt to replicate Unity's MonoBehaviors in C++ while deepening my understanding of the language. Through this project, I aim to create a foundation that is not only educational for myself but also beneficial for others who are learning C++ and game development concepts.
+Welcome to `CoreModule`! This project is an independent implementation inspired by game development frameworks like Unity. Built entirely in C++, it provides a lightweight, reusable foundation for creating and managing entities and their behaviors. While designed as a learning exercise, `CoreModule` also offers practical utility for developers exploring C++ and game development concepts.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -11,40 +11,62 @@ Welcome to `coreModule`! This project is my attempt to replicate Unity's MonoBeh
 - [License](#license)
 
 ## Introduction
-`coreModule` is inspired by Unity's MonoBehaviors, which are the building blocks for scripts in Unity. The goal of this project is to replicate similar functionality in C++, providing a way to create and manage game objects and their behaviors. This project serves as both a learning exercise and a potentially useful library for others interested in game development with C++.
 
-**New Update**: `coreModule` is now a library! 🎉 This update makes it reusable across different projects, enhancing flexibility and ease of integration. It also supports **multi-threading** for improved performance, as well as **frame rate limiting** to ensure smooth execution. The library is designed to be beautiful and efficient. ✨
+`CoreModule` is a C++ library that implements an **entity-component-based behavior system**, offering a foundation for building game-like functionality. Inspired by systems like Unity's MonoBehaviour, it introduces concepts like entities, components, and event-driven updates while remaining lightweight and independent of any specific engine.
 
-While it replicates Unity's MonoBehavior system, it's written entirely in C++. **Currently**, it does not use CMake, and instead, the MSVC compiler is used for building. I may introduce CMake support in the future.
+This library is not a clone of Unity's MonoBehaviour but rather an independent solution that shares similar ideas while introducing its own improvements and flexibility. With features like multi-threading and frame rate limiting, `CoreModule` is optimized for performance while maintaining ease of use.
+
+> **Note**: `CoreModule` is designed for learning and general-purpose use. It is built from scratch without any proprietary code from Unity Technologies.
+
+### What's New?
+- **Modular Library Design**: Fully reusable across projects.
+- **Multi-threading Support**: Improved performance with parallel processing.
+- **Frame Rate Limiting**: Ensures smooth performance across various hardware setups.
+- **Clean and Efficient API**: A focus on beautiful and extensible code design.
+
+---
 
 ## Features
-- **Entity and Component System**: Create entities and attach components to them.
-- **Automatic Management**: Automatic ID assignment and management of entities.
-- **Scene Management**: Load, unload, and manage different scenes.
-- **Event Handling**: Handle update events for entities in a structured manner.
-- **Extendable**: Easily create new types of entities and behaviors.
-- **Multi-threading**: Supports multi-threading for performance optimization.
-- **Frame Rate Limiting**: Limit FPS to ensure smooth performance across different hardware.
-- **Beautiful Design**: Focus on code cleanliness and user-friendly interface.
+
+- **Entity-Component System**: Create and manage entities, attach components, and define behaviors.
+- **Event-Driven Updates**: Structured handling of lifecycle events like `Update`.
+- **Scene Management**: Load, unload, and transition between scenes seamlessly.
+- **Performance Optimization**:
+  - Multi-threaded support for parallel processing.
+  - Frame rate limiting for consistent performance.
+- **Extendable Architecture**: Easily add custom components and systems to fit your project needs.
+- **Open-Source and Lightweight**: Designed to integrate with any project, without engine-specific dependencies.
+
+---
 
 ## Getting Started
-To get started with `coreModule`, simply include it as a dependency in your project. Currently, MSVC is the supported compiler, and you can manually integrate it without needing CMake setup.
+
+To start using `CoreModule`, follow these steps:
+
+1. Clone the repository from [GitHub](https://github.com/your-repo-link).
+2. Include the `CoreModule` source files in your project.
+3. Use an **MSVC compiler** to build the library.
+4. Integrate `CoreModule` into your project by including the necessary headers.
+
+> **Future Plans**: Support for CMake integration is planned for easier cross-platform builds.
+
+---
 
 ## Usage
-You can use `coreModule` in your C++ projects by including the library files and linking to the appropriate objects. Here's an example setup:
 
-1. Download the `coreModule` source code.
-2. Include the necessary header files in your project.
-3. Link to the compiled `.lib` files (if applicable).
+Here’s an example setup to get started with `CoreModule`:
 
-## Examples
-Here are some basic examples of how to use `coreModule` in your project.
+1. **Include the Engine Header**:
+   Include the library header files in your project.
+2. **Initialize and Use the Engine**:
+   Use the provided APIs to create entities and define behaviors.
 
-### Example 1: Testing
+### Example 1: Testing the Core Module
 ```cpp
 #include "Engine.h"
 
 int main() {
+    // Initialize the test engine
     Engine::TestEngine();
     
     return 0;
