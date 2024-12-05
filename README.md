@@ -40,14 +40,12 @@ You can use `coreModule` in your C++ projects by including the library files and
 ## Examples
 Here are some basic examples of how to use `coreModule` in your project.
 
-### Example 1: Creating an Entity
+### Example 1: Testing
 ```cpp
-#include "coreModule.h"
+#include "Engine.h"
 
 int main() {
-    coreModule::Entity myEntity;
-    myEntity.addComponent<coreModule::TransformComponent>();
-    myEntity.addComponent<coreModule::RenderComponent>();
+    Engine::TestEngine();
     
     return 0;
 }
