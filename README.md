@@ -1,6 +1,6 @@
-# coreModule
+# CoreModule
 
-Welcome to `coreModule`! This project is my attempt to replicate Unity's MonoBehaviors in C++ while deepening my understanding of the language. Through this project, I aim to create a foundation that is not only educational for myself but also beneficial for others who are learning C++ and game development concepts.
+Welcome to `CoreModule`! This project is an independent implementation inspired by game development frameworks like Unity. Built entirely in C++, it provides a lightweight, reusable foundation for creating and managing entities and their behaviors. While designed as a learning exercise, `CoreModule` also offers practical utility for developers exploring C++ and game development concepts.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -11,47 +11,63 @@ Welcome to `coreModule`! This project is my attempt to replicate Unity's MonoBeh
 - [License](#license)
 
 ## Introduction
-`coreModule` is inspired by Unity's MonoBehaviors, which are the building blocks for scripts in Unity. The goal of this project is to replicate similar functionality in C++, providing a way to create and manage game objects and their behaviors. This project serves as both a learning exercise and a potentially useful library for others interested in game development with C++.
+
+`CoreModule` is a C++ library that implements an **entity-component-based behavior system**, offering a foundation for building game-like functionality. Inspired by systems like Unity's MonoBehaviour, it introduces concepts like entities, components, and event-driven updates while remaining lightweight and independent of any specific engine.
+
+This library is not a clone of Unity's MonoBehaviour but rather an independent solution that shares similar ideas while introducing its own improvements and flexibility. With features like multi-threading and frame rate limiting, `CoreModule` is optimized for performance while maintaining ease of use.
+
+> **Note**: `CoreModule` is designed for learning and general-purpose use. It is built from scratch without any proprietary code from Unity Technologies.
+
+### What's New?
+- **Modular Library Design**: Fully reusable across projects.
+- **Multi-threading Support**: Improved performance with parallel processing.
+- **Frame Rate Limiting**: Ensures smooth performance across various hardware setups.
+- **Clean and Efficient API**: A focus on beautiful and extensible code design.
+
+---
 
 ## Features
-- **Entity and Component System**: Create entities and attach components to them.
-- **Automatic Management**: Automatic ID assignment and management of entities.
-- **Scene Management**: Load, unload, and manage different scenes.
-- **Event Handling**: Handle update events for entities in a structured manner.
-- **Extendable**: Easily create new types of entities and behaviors.
+
+- **Entity-Component System**: Create and manage entities, attach components, and define behaviors.
+- **Event-Driven Updates**: Structured handling of lifecycle events like `Update`.
+- **Scene Management**: Load, unload, and transition between scenes seamlessly.
+- **Performance Optimization**:
+  - Multi-threaded support for parallel processing.
+  - Frame rate limiting for consistent performance.
+- **Extendable Architecture**: Easily add custom components and systems to fit your project needs.
+- **Open-Source and Lightweight**: Designed to integrate with any project, without engine-specific dependencies.
+
+---
 
 ## Getting Started
-### Prerequisites
-- C++17 or later
-- CMake (for building the project)
-- A compatible C++ compiler (e.g., GCC, Clang, MSVC)
 
-### Building the Project
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/fadel-segaf-developer/CoreModule.git
-    cd CoreModule
-    ```
+To start using `CoreModule`, follow these steps:
 
-2. Create a build directory and navigate to it:
-    ```sh
-    mkdir build && cd build
-    ```
+1. Clone the repository from [GitHub](https://github.com/your-repo-link).
+2. Include the `CoreModule` source files in your project.
+3. Use an **MSVC compiler** to build the library.
+4. Integrate `CoreModule` into your project by including the necessary headers.
 
-3. Run CMake and build the project:
-    ```sh
-    cmake ..
-    make
-    ```
+> **Future Plans**: Support for CMake integration is planned for easier cross-platform builds.
+
+---
 
 ## Usage
-### Creating an Entity
-To create a new entity, use the `EntityObject` class:
+
+Here’s an example setup to get started with `CoreModule`:
+
+1. **Include the Engine Header**:
+   Include the library header files in your project.
+2. **Initialize and Use the Engine**:
+   Use the provided APIs to create entities and define behaviors.
+
+### Example 1: Testing the Core Module
 ```cpp
-#include "EntityObject.h"
+#include "Engine.h"
 
 int main() {
-    auto entity = EntityObject::Create();
-    entity->AddComponent<CoreModule>();
+    // Initialize the test engine
+    Engine::TestEngine();
+    
     return 0;
 }
