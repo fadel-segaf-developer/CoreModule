@@ -9,7 +9,7 @@ std::shared_ptr<MainCharacter> MainCharacter::Create(const std::string& name) {
     entity->x = stoi(entity->nameObj.substr(3, entity->nameObj.size()));
     entity->Initialize();
     EntityManager::AddEntity(entity);
-    entity->AddComponent<CoreModule>(); // Automatically add CoreModule after registering with EntityManager
+    entity->AddComponent<CoreLogic>(); // Automatically add CoreModule after registering with EntityManager
     return entity;
 }
 void MainCharacter::CustomFunction() {

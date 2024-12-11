@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)extern\imgui;$(SolutionDir)extern\imgui\backends;C:\SDL2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)extern\imgui;$(SolutionDir)extern\imgui\backends;C:\SDL2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,25 +130,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ChronoMaster.cpp" />
-    <ClCompile Include="src\CoreModule.cpp" />
+    <ClCompile Include="src\CoreLogic.cpp" />
     <ClCompile Include="src\CustomScenario.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\EntityObject.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\CoreModule.cpp" />
+    <ClCompile Include="src\GUIManager.cpp" />
     <ClCompile Include="src\MainCharacter.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ChronoMaster.h" />
-    <ClInclude Include="include\CoreModule.h" />
+    <ClInclude Include="include\CoreLogic.h" />
     <ClInclude Include="include\CustomScenario.h" />
-    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\CoreModule.h" />
     <ClInclude Include="include\EntityManager.h" />
     <ClInclude Include="include\EntityObject.h" />
+    <ClInclude Include="include\GUIManager.h" />
     <ClInclude Include="include\MainCharacter.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\SceneManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImGuiLib\ImGuiLib.vcxproj">
+      <Project>{869bec33-3441-48cc-b9ec-3623362ea323}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

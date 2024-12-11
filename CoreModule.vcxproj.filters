@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CoreModule.cpp">
+    <ClCompile Include="src\CoreLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine.cpp">
+    <ClCompile Include="src\CoreModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\EntityObject.cpp">
@@ -42,9 +42,12 @@
     <ClCompile Include="src\CustomScenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CoreModule.h">
+    <ClInclude Include="include\CoreLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\EntityObject.h">
@@ -68,7 +71,10 @@
     <ClInclude Include="include\CustomScenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Engine.h">
+    <ClInclude Include="include\CoreModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GUIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

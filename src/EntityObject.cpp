@@ -30,7 +30,7 @@ std::shared_ptr<EntityObject> EntityObject::Create(const std::string& i_entityNa
     entity->Initialize();
 
     EntityManager::AddEntity(entity);
-    entity->AddComponent<CoreModule>(); // Automatically add CoreModule after registering with EntityManager
+    entity->AddComponent<CoreLogic>(); // Automatically add CoreModule after registering with EntityManager
     return entity;
 
     return nullptr;

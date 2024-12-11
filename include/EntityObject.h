@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include "CoreModule.h"
+#include "CoreLogic.h"
 #include "SceneManager.h"
 
 class Scene;
@@ -31,7 +31,7 @@ protected:
     EntityObject() = default; // Constructor is protected to allow access by derived classes
 
 private:
-    std::vector<std::shared_ptr<CoreModule>> components; // List of components
+    std::vector<std::shared_ptr<CoreLogic>> components; // List of components
     static bool isNameUnique(string i_name);
     string entityName;
 };

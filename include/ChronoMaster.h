@@ -18,7 +18,7 @@ public:
     bool IsTimeFixedUpdate();
 
     // Function to update frame count and calculate FPS
-    void DebugFrameRendered();
+    int DebugFrameRendered();
 
 private:
     double maxFPS;

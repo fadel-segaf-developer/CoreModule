@@ -35,7 +35,7 @@ bool ChronoMaster::IsTimeFixedUpdate() {
     return false;
 }
 
-void ChronoMaster::DebugFrameRendered() {
+int ChronoMaster::DebugFrameRendered() {
     // Increment frame count
     ++frameCount;
 
@@ -45,16 +45,20 @@ void ChronoMaster::DebugFrameRendered() {
 
     // Calculate current FPS every second
     if (elapsedSeconds >= 1.0) {
-        
+
         double currentFPS = frameCount / elapsedSeconds;
         if (static_cast<int>(currentFPS) != CurrentFPS)
         {
-            system("cls");
-            std::cout << "FPS: " << static_cast<int>(currentFPS) << std::endl;
+            // system("cls");  // Uncomment to clear the screen (optional)
+            // std::cout << "FPS: " << static_cast<int>(currentFPS) << std::endl;
+            CurrentFPS = static_cast<int>(currentFPS);
         }
-        CurrentFPS = static_cast<int>(currentFPS);
+
         // Reset for the next second
-        frameCount = 0.0;
-        startTime = currentTime;
+        frameCount = 0;  // Reset frame count to 0 (integer)
+        startTime = currentTime;  // Update start time to current time
     }
+
+    return CurrentFPS;
 }
+
