@@ -6,7 +6,6 @@
 #include "ChronoMaster.h"
 #include "EntityManager.h"
 #include "MainCharacter.h"
-#include "SceneManager.h"
 #include <algorithm> // For std::find, std::sort, etc.
 #include <utility>  // For std::pair
 
@@ -15,22 +14,17 @@
 namespace CoreModule {
     //SDL variables
     int FPS = 0;
-    // Create entities using the factory function
-    //auto entity1 = EntityObject::Create();
-    //auto entity2 = MainCharacter::Create();
-
-
-
+    std::shared_ptr<SceneManager> sceneManager = nullptr;
     void Start()
     {
         ChronoMaster chronoMaster;
         chronoMaster.Init(60, 1000); 
-        //SceneManager sceneManager;
+        sceneManager = std::make_shared<SceneManager>();
 
         bool engineRunning = true;
         while (engineRunning) {
             if (chronoMaster.IsTimeUpdate()) {
-                //EntityManager::UpdateAll();
+                EntityManager::UpdateAll();
                 if (CoreModule::USING_SDL2 && CoreModule::USING_OPENGL3)
                 {
                     SDL_Event event;
@@ -47,7 +41,7 @@ namespace CoreModule {
                 }
             }
             if (chronoMaster.IsTimeFixedUpdate()) {
-                //EntityManager::FixedUpdateAll();
+                EntityManager::FixedUpdateAll();
 
             }
             

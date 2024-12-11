@@ -56,7 +56,9 @@ namespace CoreModule {
 
 		// Get the display size from ImGui
 		ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+		//DEBUG//
 
+		//FPS VIEW
 		// Calculate position for top-right corner
 		float xPos = displaySize.x - 100; // Adjust based on the text width
 		float yPos = 10;                  // Margin from the top
@@ -64,13 +66,38 @@ namespace CoreModule {
 		// Render FPS counter directly on the main viewport
 		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
 		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
-		ImGui::Begin("Overlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+		ImGui::Begin("FPSOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
 			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
 			ImGuiWindowFlags_NoResize);
 
 		// Add FPS text
 		ImGui::Text("FPS: %d", CoreModule::FPS); // Replace 144 with dynamic FPS calculation
+		//End the FPS view
+		ImGui::End();
 
+
+		//SCENE VIEW
+		// Calculate position for top-right corner
+		xPos = 10; // Adjust based on the text width
+		yPos = 10;                  // Margin from the top
+
+		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
+		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
+		ImGui::Begin("SceneOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoResize);
+
+		// Add Scene text
+		ImGui::Text("Scene Counter : %d", CoreModule::sceneManager->getScenes().size());
+		for (auto& scene : CoreModule::sceneManager->getScenes())
+		{
+			ImGui::Text("Scene - %s \n", scene.second->GetName());
+		}
+		
+		
+			
+
+		//End the Scene View
 		ImGui::End();
 
 		// Finalize ImGui frame

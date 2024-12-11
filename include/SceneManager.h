@@ -16,6 +16,8 @@ public:
     void SwitchScene(int& i_sceneNumber);
     bool storeEntityData(Scene* i_scene, shared_ptr<EntityObject> i_entityObject);
 
+    std::map<std::string, Scene*> getScenes() { return scenes; }
+
 private:
     bool addScene(Scene* i_Scene);
     std::map<std::string, Scene*> scenes;

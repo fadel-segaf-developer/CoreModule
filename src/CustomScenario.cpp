@@ -13,7 +13,7 @@ std::mutex mtx; // Mutex for synchronization
 
 CustomScenario::CustomScenario(SceneManager* i_pSceneManager) : 
     Scene(m_sceneName, i_pSceneManager), m_sceneName("CustomScenario"), m_pSceneManager(i_pSceneManager){
-    std::cout << "CustomScenario with Scene '" << m_sceneName << "' created\n";
+    //std::cout << "CustomScenario with Scene '" << m_sceneName << "' created\n";
     Initialize();
 }
 
@@ -72,12 +72,12 @@ void CustomScenario::UseThread()
 void CustomScenario::Initialize() {
     std::cout << "CustomScenario Init\n";
     
-   /* for (int i = 1; i < 5000; i++)
+    for (int i = 1; i < 5; i++)
     {
         auto AutoEntity = EntityObject::Create("Obj", m_pSceneManager, this);
-    }*/
+    }
     
-    UseThread();
+    //UseThread();
 }
 
 
