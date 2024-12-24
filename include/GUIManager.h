@@ -12,8 +12,12 @@ namespace CoreModule {
 	static constexpr bool USING_SDL2 = true;
 	static constexpr bool USING_OPENGL3 = true;
 	GLuint LoadTextureFromFile(const char* filename);
-	void RenderImage();
-	void RenderImageBackground();
+	GLuint LoadTexture(const char* filename);
+	void AddAlphaChannel(unsigned char*& image_data, int& width, int& height, int& channels);
+	void RenderImage(std::string i_imageAddress);
+	void RenderImageBackground(GLuint i_textureID);
+	void InitializeData();
+	
 
 	class GUIManager
 	{

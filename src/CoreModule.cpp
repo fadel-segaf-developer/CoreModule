@@ -21,7 +21,7 @@ namespace CoreModule {
     {
         bool engineRunning = true;
         ChronoMaster chronoMaster;
-        chronoMaster.Init(60, 1000); 
+        chronoMaster.Init(144, 1000); 
 
         std::shared_ptr<Scene> s1 =sceneManager->addScene("Scene1");
         s1->CreateEntity("crazy man");
