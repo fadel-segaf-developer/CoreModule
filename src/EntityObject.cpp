@@ -1,5 +1,6 @@
 #include "EntityObject.h"
 #include "EntityManager.h"
+#include <string>
 
 string Uniquifier(string i_name)
 {
@@ -17,23 +18,20 @@ string Uniquifier(string i_name)
 
 
 
-std::shared_ptr<EntityObject> EntityObject::Create(const std::string& i_entityName, SceneManager* i_pSceneManger, Scene* i_Scene) {
+std::shared_ptr<EntityObject> EntityObject::Create(const std::string& i_entityName, std::shared_ptr<SceneManager> i_pSceneManger, std::shared_ptr<Scene> i_pScene) {
 
     string nameEnt;
-    
-    
+ 
     nameEnt = Uniquifier(i_entityName);
 
     auto entity = std::shared_ptr<EntityObject>(new EntityObject());
     entity->SetEntityName(nameEnt);
-    i_pSceneManger->storeEntityData(i_Scene, entity);
+    //i_pSceneManger->storeEntityData(i_Scene, entity);
     entity->Initialize();
 
     EntityManager::AddEntity(entity);
     entity->AddComponent<CoreLogic>(); // Automatically add CoreModule after registering with EntityManager
     return entity;
-
-    return nullptr;
 }
 
 

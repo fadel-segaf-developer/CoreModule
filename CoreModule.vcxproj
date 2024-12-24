@@ -129,21 +129,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\ChronoMaster.cpp" />
     <ClCompile Include="src\CoreLogic.cpp" />
-    <ClCompile Include="src\CustomScenario.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\EntityObject.cpp" />
     <ClCompile Include="src\CoreModule.cpp" />
     <ClCompile Include="src\GUIManager.cpp" />
     <ClCompile Include="src\MainCharacter.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ChronoMaster.h" />
     <ClInclude Include="include\CoreLogic.h" />
-    <ClInclude Include="include\CustomScenario.h" />
     <ClInclude Include="include\CoreModule.h" />
     <ClInclude Include="include\EntityManager.h" />
     <ClInclude Include="include\EntityObject.h" />

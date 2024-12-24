@@ -6,7 +6,7 @@ std::shared_ptr<MainCharacter> MainCharacter::Create(const std::string& name) {
     auto entity = std::shared_ptr<MainCharacter>(new MainCharacter());
     entity->SetEntityName(name);
     entity->nameObj = entity->GetEntityName();
-    entity->x = stoi(entity->nameObj.substr(3, entity->nameObj.size()));
+    //entity->x = stoi(entity->nameObj.substr(3, entity->nameObj.size()));
     entity->Initialize();
     EntityManager::AddEntity(entity);
     entity->AddComponent<CoreLogic>(); // Automatically add CoreModule after registering with EntityManager

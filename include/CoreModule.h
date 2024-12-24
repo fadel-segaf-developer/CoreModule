@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include "CustomScenario.h"
+#include "SceneManager.h"
+
 namespace CoreModule {
 	void TestEngine();
 	void InitializeWindow(int width, int height, const char* windowName);

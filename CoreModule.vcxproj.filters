@@ -33,16 +33,13 @@
     <ClCompile Include="src\MainCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CustomScenario.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,19 +59,16 @@
     <ClInclude Include="include\MainCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CustomScenario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\CoreModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GUIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

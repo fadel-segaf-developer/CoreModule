@@ -6,22 +6,30 @@
 #include "ChronoMaster.h"
 #include "EntityManager.h"
 #include "MainCharacter.h"
+#include "SceneManager.h"
 #include <algorithm> // For std::find, std::sort, etc.
 #include <utility>  // For std::pair
+
+#include<Windows.h>
 
 
 
 namespace CoreModule {
-    //SDL variables
     int FPS = 0;
-    std::shared_ptr<SceneManager> sceneManager = nullptr;
+    std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
     void Start()
     {
+        bool engineRunning = true;
         ChronoMaster chronoMaster;
         chronoMaster.Init(60, 1000); 
-        sceneManager = std::make_shared<SceneManager>();
 
-        bool engineRunning = true;
+        std::shared_ptr<Scene> s1 =sceneManager->addScene("Scene1");
+        s1->CreateEntity("crazy man");
+        std::shared_ptr<Scene> s2 = sceneManager->addScene("Scene2");
+        s2->CreateEntity("Ultra man");
+        std::shared_ptr<Scene> s3 = sceneManager->addScene("Scene3");
+        s3->CreateEntity("Omega man");
+        
         while (engineRunning) {
             if (chronoMaster.IsTimeUpdate()) {
                 EntityManager::UpdateAll();
@@ -47,14 +55,11 @@ namespace CoreModule {
             
         }
     }
-
     void Exit()
     {
         CoreModule::CleanUp();
     }
 
-
-    
 }
 
 

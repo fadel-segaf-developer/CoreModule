@@ -1,30 +1,18 @@
-#ifndef SCENE_H
-#define SCENE_H
-
-#include <string>
-#include <vector>
+#pragma once
 #include <memory>
 #include <map>
 #include "EntityObject.h"
-#include "SceneManager.h"
-
-
-
-class Scene : public EntityObject {
+class SceneManager;
+class Scene : public std::enable_shared_from_this<Scene>
+{
 public:
-    Scene(const std::string& i_Name, SceneManager* i_pSceneManager);
-    ~Scene();
+	Scene(std::shared_ptr<SceneManager> i_pSceneManager);
 
-    void AddEntity(std::shared_ptr<EntityObject> entity);
-    void RemoveEntity(std::shared_ptr<EntityObject> entity);
-    void ClearEntities();
-    const std::string& GetName() const { return m_sSceneName; }
-    const std::vector<std::shared_ptr<EntityObject>>& GetEntities() const { return entities; }
+	void CreateEntity(std::string i_entityName);
+	std::map<std::string, std::shared_ptr<EntityObject>> m_mEntities;
 
 private:
-    std::string m_sSceneName;
-    SceneManager* m_pSceneManager = nullptr;
-    std::vector<std::shared_ptr<EntityObject>> entities;
+	std::shared_ptr<SceneManager> m_pSceneManager;
+	
 };
 
-#endif // SCENE_H

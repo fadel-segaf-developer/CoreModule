@@ -5,13 +5,13 @@
 #include <vector>
 #include <memory>
 #include "CoreLogic.h"
-#include "SceneManager.h"
 
+class SceneManager;
 class Scene;
 
 class EntityObject : public std::enable_shared_from_this<EntityObject> {
 public:
-    static std::shared_ptr<EntityObject> Create(const std::string& i_entityName, SceneManager* i_pSceneManger, Scene* i_Scene);
+    static std::shared_ptr<EntityObject> Create(const std::string& i_entityName, std::shared_ptr<SceneManager> i_pSceneManger, std::shared_ptr<Scene> i_scene);
 
     // Lifecycle methods
     virtual void Initialize(); // Initialization function

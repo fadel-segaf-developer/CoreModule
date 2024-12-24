@@ -1,29 +1,15 @@
-#ifndef SCENEMANAGER_H
-#define SCENEMANAGER_H
+#pragma once
+#include "Scene.h"
 
-#include <unordered_map>
-#include <memory>
 #include <string>
+#include <vector>
 #include <map>
-
-class Scene;
-
-class SceneManager 
+class SceneManager : public std::enable_shared_from_this<SceneManager>
 {
 public:
-    SceneManager();
-    bool SceneExists(const std::string& sceneName) const;
-    void SwitchScene(int& i_sceneNumber);
-    bool storeEntityData(Scene* i_scene, shared_ptr<EntityObject> i_entityObject);
+	SceneManager() {};
+	std::shared_ptr<Scene> addScene(std::string i_sceneName);
 
-    std::map<std::string, Scene*> getScenes() { return scenes; }
-
-private:
-    bool addScene(Scene* i_Scene);
-    std::map<std::string, Scene*> scenes;
-    std::map<Scene*, shared_ptr<EntityObject>> entityData;
-
-    bool Debug = true;
+	std::map<std::string, std::shared_ptr<Scene>> Scenes;
 };
 
-#endif // SCENEMANAGER_H

@@ -1,5 +1,8 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include "GUIManager.h"
 #include "CoreModule.h"
+#include "stb_image.h"
+
 namespace CoreModule {
 
 
@@ -45,6 +48,8 @@ namespace CoreModule {
 
 	void CoreModule::Render()
 	{
+
+		
 		// Set the OpenGL context and clear the screen
 		SDL_GL_MakeCurrent(window, gl_context);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -56,7 +61,30 @@ namespace CoreModule {
 
 		// Get the display size from ImGui
 		ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-		//DEBUG//
+
+
+		// getting the style
+		ImGuiStyle& style = ImGui::GetStyle();
+		//BACKGROUND
+
+		// Resize ImGui window to match the SDL window size
+		int windowWidth, windowHeight;
+		SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+		ImGui::SetNextWindowSize(ImVec2((float)windowWidth, (float)windowHeight));
+		ImGui::SetNextWindowPos(ImVec2(0, 0)); // Position it at the top-left corner (optional)
+
+		style.WindowBorderSize = 0.0f; // Remove window borders
+		style.FrameBorderSize = 0.0f;  // Remove frame borders (for buttons, inputs, etc.)
+		style.ScrollbarSize = 0.0f;    // Optionally remove scrollbar sizes if not needed
+		style.WindowPadding = ImVec2(0.0f, 0.0f); // Remove padding for windows, making them compact
+		ImGui::SetNextWindowBgAlpha(0.0f);          
+
+		ImGui::Begin("Background", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoResize);
+		RenderImageBackground();
+
+		ImGui::End();
 
 		//FPS VIEW
 		// Calculate position for top-right corner
@@ -85,17 +113,25 @@ namespace CoreModule {
 		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
 		ImGui::Begin("SceneOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
 			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_NoResize);
+			ImGuiWindowFlags_AlwaysAutoResize);
 
 		// Add Scene text
-		ImGui::Text("Scene Counter : %d", CoreModule::sceneManager->getScenes().size());
-		for (auto& scene : CoreModule::sceneManager->getScenes())
+		ImGui::Text("Scene Counter : %d", CoreModule::sceneManager->Scenes.size());
+		for (auto& scene : CoreModule::sceneManager->Scenes)
 		{
-			ImGui::Text("Scene - %s \n", scene.second->GetName());
+			std::string sceneName = scene.first;
+			ImGui::Text("[Scene] - %s", sceneName.c_str());
+
+			for (auto& entity : scene.second->m_mEntities)
+			{
+				std::string EntityName = entity.first;
+				ImGui::Text("  > [Enitity] - %s", EntityName.c_str());
+
+			}
 		}
+
 		
-		
-			
+
 
 		//End the Scene View
 		ImGui::End();
@@ -111,8 +147,70 @@ namespace CoreModule {
 	}
 
 
+	// Function to load image using stb_image
+	GLuint CoreModule::LoadTextureFromFile(const char* filename)
+	{
+		int width, height, channels;
+		unsigned char* image_data = stbi_load(filename, &width, &height, &channels, 0);
+		if (!image_data)
+		{
+			//std::cerr << "Failed to load image: " << filename << std::endl;
+			return 0;
+		}
+
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		// Set texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		// Upload image data to OpenGL
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+
+		stbi_image_free(image_data);  // Don't forget to free the image data
+
+		return texture;
+	}
+
+	// Render image using ImGui
+	void CoreModule::RenderImage()
+	{
+		GLuint textureID = LoadTextureFromFile("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/image2.png");
+
+		if (textureID)
+		{
+			// Pass textureID directly as ImTextureID, no need for casting
+			ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2(200, 200));
+		}
+	}
 
 
+	void CoreModule::RenderImageBackground()
+	{
+		int windowWidth, windowHeight;
+		SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+
+		GLuint textureID = LoadTextureFromFile("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/image.png");
+
+		if (textureID)
+		{
+			ImVec2 windowPos = ImGui::GetWindowPos();
+
+			// Stretch the image to fill the SDL window (the actual app window size)
+			ImGui::GetWindowDrawList()->AddImage(
+				(ImTextureID)(intptr_t)textureID,           // Texture ID
+				windowPos,                            // Image position (top-left corner of the window)
+				ImVec2(windowPos.x + windowWidth, windowPos.y + windowHeight), // Bottom-right corner (stretched to the actual window size)
+				ImVec2(0, 0),                         // Top-left texcoord
+				ImVec2(1, 1),                         // Bottom-right texcoord
+				IM_COL32(255, 255, 255, 255)          // White color for no tint
+			);
+		}
+	}
 
 
 
