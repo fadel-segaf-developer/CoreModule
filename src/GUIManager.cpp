@@ -120,12 +120,12 @@ namespace CoreModule {
 			ImGuiWindowFlags_AlwaysAutoResize);
 
 		// Add FPS text
-		ImGui::Text("FPS: %d", CoreModule::FPS); // Replace 144 with dynamic FPS calculation
+		ImGui::Text("FPS: %d", CoreModule::FPS); 
 		//End the FPS view
 		ImGui::End();
 
 
-		//SCENE VIEW
+		//SCENE DEBUG VIEW
 		// Calculate position for top-right corner
 		xPos = 10; // Adjust based on the text width
 		yPos = 10;                  // Margin from the top
@@ -136,12 +136,13 @@ namespace CoreModule {
 			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
 			ImGuiWindowFlags_AlwaysAutoResize);
 
-		// Add Scene text
+		// scene debug
 		ImGui::Text("Scene Counter : %d", CoreModule::sceneManager->Scenes.size());
+		int i = 0;
 		for (auto& scene : CoreModule::sceneManager->Scenes)
 		{
 			std::string sceneName = scene.first;
-			ImGui::Text("[Scene] - %s", sceneName.c_str());
+			ImGui::Text("[Scene [%d]] - %s",i, sceneName.c_str());
 
 			for (auto& entity : scene.second->m_mEntities)
 			{
@@ -149,13 +150,47 @@ namespace CoreModule {
 				ImGui::Text("  > [Enitity] - %s", EntityName.c_str());
 
 			}
+			i = i + 1;
+		}
+		//End the Scene debug View
+		ImGui::End();
+
+		//New Scene input field
+		xPos = 10; // Adjust based on the text width
+		yPos = displaySize.y - 100;// Margin from the top
+		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
+		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
+		ImGui::Begin("Text Input Window", nullptr, ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_AlwaysAutoResize);
+		// Declare sceneTextBuffer as a persistent buffer, initialized with an empty string
+		static char sceneTextBuffer[128] = "";
+
+		// Render the input text field
+		if (ImGui::InputText("Enter the scene name", sceneTextBuffer, sizeof(sceneTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+			// Ensure null-termination of the buffer
+			sceneTextBuffer[sizeof(sceneTextBuffer) - 1] = '\0';
+
+			// Safely convert the buffer to std::string
+			std::string sceneName(sceneTextBuffer);
+
+			// Check if the name is valid (not empty)
+			if (!sceneName.empty()) {
+				// Add a new scene
+				std::shared_ptr<Scene> s1 = sceneManager->addScene(sceneName);
+				//s1->CreateEntity("crazy man");
+			}
+			else {
+				// Handle the case of empty input
+				std::cerr << "Scene name is empty!" << std::endl;
+			}
 		}
 
-		
-
-
-		//End the Scene View
+		// Input field
 		ImGui::End();
+
+
 
 		// Finalize ImGui frame
 		ImGui::Render();
