@@ -11,6 +11,8 @@ public:
 	void CreateEntity(std::string i_entityName);
 	std::map<std::string, std::shared_ptr<EntityObject>> m_mEntities;
 
+	char entityTextBuffer[128] = "";
+
 private:
 	std::shared_ptr<SceneManager> m_pSceneManager;
 	

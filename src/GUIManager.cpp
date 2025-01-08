@@ -66,228 +66,183 @@ namespace CoreModule {
 
 	void CoreModule::Render()
 	{
-
-		
-		// Set the OpenGL context and clear the screen
+		// --- Set the OpenGL context and clear the screen ---
 		SDL_GL_MakeCurrent(window, gl_context);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Start ImGui frame
+		// --- Start the ImGui frame ---
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame();
 		ImGui::NewFrame();
 
-		
-
-		// Get the display size from ImGui
+		// Get the display size and prepare styles
 		ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-		// getting the style
 		ImGuiStyle& style = ImGui::GetStyle();
-		// Get the ImGui IO structure
-		
-		//BACKGROUND
+		ConfigureImGuiStyle(style);
 
-		// Resize ImGui window to match the SDL window size
-		ImGui::SetNextWindowSize(ImVec2((float)windowWidth, (float)windowHeight));
-		ImGui::SetNextWindowPos(ImVec2(0, 0)); // Position it at the top-left corner (optional)
+		// --- Render Background ---
+		RenderBackground();
 
-		style.WindowBorderSize = 0.0f; // Remove window borders
-		style.FrameBorderSize = 0.0f;  // Remove frame borders (for buttons, inputs, etc.)
-		style.ScrollbarSize = 0.0f;    // Optionally remove scrollbar sizes if not needed
-		style.WindowPadding = ImVec2(0.0f, 0.0f); // Remove padding for windows, making them compact
-		ImGui::SetNextWindowBgAlpha(0.0f);          
+		// --- Render FPS Counter ---
+		RenderFPSCounter(displaySize);
 
-		ImGui::Begin("Background", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
-			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_NoResize);
-		
+		// --- Render Scenes and Entities ---
+		RenderScenesAndEntities(displaySize, style);
 
-		glBindTexture(GL_TEXTURE_2D, BackgroundTextureID);
-		RenderImageBackground(BackgroundTextureID);
-		ImGui::End();
-
-		//FPS VIEW
-		// Calculate position for top-right corner
-		float xPos = displaySize.x - 100; // Adjust based on the text width
-		float yPos = 10;                  // Margin from the top
-
-		// Render FPS counter directly on the main viewport
-		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
-		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
-		
-		ImGui::Begin("FPSOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
-			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_AlwaysAutoResize);
-
-		// Add FPS text
-		ImGui::Text("FPS: %d", CoreModule::FPS); 
-		//End the FPS view
-		ImGui::End();
-
-
-		//SCENE DEBUG VIEW
-		// Calculate position for top-right corner
-		xPos = 10; // Adjust based on the text width
-		yPos = 10;                  // Margin from the top
-
-		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
-		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
-		ImGui::Begin("SceneOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
-			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_AlwaysAutoResize);
-
-		// scene debug
-		ImGui::Text("Scene Counter : %d", CoreModule::sceneManager->Scenes.size());
-		int i = 0;
-		for (auto& scene : CoreModule::sceneManager->Scenes)
-		{
-			std::string sceneName = scene.first;
-			ImGui::Text("[Scene [%d]] - %s",i, sceneName.c_str());
-
-			for (auto& entity : scene.second->m_mEntities)
-			{
-				std::string EntityName = entity.first;
-				ImGui::Text("  > [Enitity] - %s", EntityName.c_str());
-
-			}
-			i = i + 1;
-		}
-		//End the Scene debug View
-		ImGui::End();
-
-		//New Scene input field
-		xPos = 10; // Adjust based on the text width
-		yPos = displaySize.y - 100;// Margin from the top
-		ImGui::SetNextWindowPos(ImVec2(xPos, yPos)); // Position in the top-right corner
-		ImGui::SetNextWindowBgAlpha(0.0f);          // Make the background transparent
-		ImGui::Begin("Text Input Window", nullptr, ImGuiWindowFlags_NoDecoration |
-			ImGuiWindowFlags_NoMove |
-			ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_AlwaysAutoResize);
-		// Declare sceneTextBuffer as a persistent buffer, initialized with an empty string
-		static char sceneTextBuffer[128] = "";
-
-		// Render the input text field
-		if (ImGui::InputText("Enter the scene name", sceneTextBuffer, sizeof(sceneTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
-			// Ensure null-termination of the buffer
-			sceneTextBuffer[sizeof(sceneTextBuffer) - 1] = '\0';
-
-			// Safely convert the buffer to std::string
-			std::string sceneName(sceneTextBuffer);
-
-			// Check if the name is valid (not empty)
-			if (!sceneName.empty()) {
-				// Add a new scene
-				std::shared_ptr<Scene> s1 = sceneManager->addScene(sceneName);
-				//s1->CreateEntity("crazy man");
-			}
-			else {
-				// Handle the case of empty input
-				std::cerr << "Scene name is empty!" << std::endl;
-			}
-		}
-
-		// Input field
-		ImGui::End();
-
-
-
-		// Finalize ImGui frame
+		// --- Finalize ImGui frame ---
 		ImGui::Render();
-
-		// Render ImGui draw data to OpenGL
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		// Swap the window buffer to display the rendered frame
+		// --- Swap the buffer to display the rendered frame ---
 		SDL_GL_SwapWindow(window);
 	}
 
-
-	GLuint CoreModule::LoadTextureFromFile(const char* filename)
+	// Configure ImGui style settings
+	void CoreModule::ConfigureImGuiStyle(ImGuiStyle& style)
 	{
-		// Load the image using stb_image
-		int width, height, channels;
-		unsigned char* image_data = stbi_load(filename, &width, &height, &channels, STBI_rgb_alpha);  // Force RGBA format
-		if (!image_data)
-		{
-			std::cerr << "Failed to load image: " << filename << std::endl;
-			return 0;
-		}
+		style.WindowBorderSize = 0.0f; // Remove window borders
+		style.FrameBorderSize = 0.0f;  // Remove frame borders
+		style.ScrollbarSize = 0.0f;    // Disable scrollbars
+		style.WindowPadding = ImVec2(0.0f, 0.0f); // Remove window padding
+	}
 
-		// Check for the bit depth and handle it
-		if (channels != 4)
-		{
-			//std::cerr << "Unsupported image format. Expected RGBA (32-bit) but got " << channels << " channels." << std::endl;
-			stbi_image_free(image_data);
-			return 0;
-		}
+	// Render the background as a fullscreen image
+	void CoreModule::RenderBackground()
+	{
+		ImGui::SetNextWindowSize(ImVec2((float)windowWidth, (float)windowHeight));
+		ImGui::SetNextWindowPos(ImVec2(0, 0));
+		ImGui::SetNextWindowBgAlpha(0.0f); // Fully transparent background
 
-		// Resize image if it's bigger than the window size
-		if (width > windowWidth || height > windowHeight)
-		{
-			float scale_factor = std::min(static_cast<float>(windowHeight) / width, static_cast<float>(windowHeight) / height);
-			width = static_cast<int>(width * scale_factor);
-			height = static_cast<int>(height * scale_factor);
-		}
+		ImGui::Begin("Background", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
 
-		// Create a new image with resized dimensions
-		unsigned char* resized_image_data = new unsigned char[width * height * 4];  // Use RGBA (4 channels)
+		// Bind and render the background texture
+		glBindTexture(GL_TEXTURE_2D, BackgroundTextureID);
+		RenderImageBackground(BackgroundTextureID);
 
-		// Bilinear interpolation resizing
-		for (int y = 0; y < height; ++y)
+		ImGui::End();
+	}
+
+	// Render the FPS counter in the top-right corner
+	void CoreModule::RenderFPSCounter(const ImVec2& displaySize)
+	{
+		float xPos = displaySize.x - 100; // Position from the right edge
+		float yPos = 10;                  // Position from the top edge
+
+		ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
+		ImGui::SetNextWindowBgAlpha(0.0f); // Transparent background
+
+		ImGui::Begin("FPSOverlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize);
+
+		// Display the FPS count
+		ImGui::Text("FPS: %d", CoreModule::FPS);
+
+		ImGui::End();
+	}
+
+	// Render all scenes and their respective entities
+	void CoreModule::RenderScenesAndEntities(const ImVec2& displaySize, ImGuiStyle& style)
+	{
+		float xPos = 10;    // Initial x-position
+		float yPos = 10;    // Initial y-position
+		int rowCounter = 0; // Tracks rows for scene positioning
+		int lastEntityCount = 0;
+		int columnCounter = 0;
+		float lastYPos = yPos;
+
+		// Padding configurations
+		float scenePadding = 150.0f;
+		float entityPadding = 100.0f;
+
+		for (auto& scene : CoreModule::sceneManager->Scenes)
 		{
-			for (int x = 0; x < width; ++x)
+			// Prepare scene-specific settings
+			std::string sceneName = scene.first;
+			std::shared_ptr<Scene> currentScene = scene.second;
+			int entityCount = currentScene->m_mEntities.size();
+			float prevEntityYPadding = (lastEntityCount * entityPadding);
+
+			// Calculate position for the current scene
+			float totalYPadding = (rowCounter == 0 ? lastYPos : lastYPos + prevEntityYPadding + scenePadding);
+
+			// Handle new columns when exceeding the window height
+			if ((totalYPadding + entityCount * entityPadding) >= static_cast<float>(windowHeight))
 			{
-				// Get the coordinates in the original image
-				float src_x = (x + 0.5f) * width / float(windowWidth) - 0.5f;
-				float src_y = (y + 0.5f) * height / float(windowHeight) - 0.5f;
+				columnCounter++;
+				rowCounter = 0;
+				lastYPos = yPos;
+				totalYPadding = yPos;
+			}
+			else
+			{
+				lastYPos = totalYPadding;
+			}
 
-				// Clamp the source coordinates to ensure they are within bounds
-				int x0 = std::max(0, std::min(width - 1, int(src_x)));
-				int y0 = std::max(0, std::min(height - 1, int(src_y)));
-				int x1 = std::max(0, std::min(width - 1, x0 + 1));
-				int y1 = std::max(0, std::min(height - 1, y0 + 1));
+			float sceneXPos = xPos + (columnCounter * 350);
+			RenderScene(sceneName, currentScene, sceneXPos, totalYPadding, entityPadding);
 
-				// Calculate the bilinear interpolation weights
-				float dx = src_x - x0;
-				float dy = src_y - y0;
-				float weight_x = 1.0f - dx;
-				float weight_y = 1.0f - dy;
+			// Update counters
+			rowCounter++;
+			lastEntityCount = entityCount;
+		}
+	}
 
-				for (int c = 0; c < 4; ++c)  // Use 4 channels (RGBA)
-				{
-					// Interpolate between the four surrounding pixels
-					unsigned char pixel = (unsigned char)(
-						weight_x * weight_y * image_data[(y0 * width + x0) * 4 + c] +
-						dx * weight_y * image_data[(y1 * width + x0) * 4 + c] +
-						weight_x * dy * image_data[(y0 * width + x1) * 4 + c] +
-						dx * dy * image_data[(y1 * width + x1) * 4 + c]
-						);
-					resized_image_data[(y * width + x) * 4 + c] = pixel;
-				}
+	// Render a single scene and its entities
+	void CoreModule::RenderScene(const std::string& sceneName, const std::shared_ptr<Scene>& scene, float xPos, float yPos, float entityPadding)
+	{
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 0.0f)); // Fixed width, auto-resize height
+		ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
+		ImGui::SetNextWindowBgAlpha(0.1f); // Semi-transparent background
+
+		ImGui::Begin(sceneName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
+
+		// Display scene details
+		ImGui::Text("Scene Name: %s", sceneName.c_str());
+		ImGui::Text("Entity Count: %d", (int)scene->m_mEntities.size());
+
+		// Entity creation input
+		ImGui::PushItemWidth(150.0f);
+		if (ImGui::InputText(" ", scene->entityTextBuffer, sizeof(scene->entityTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			std::string entityName(scene->entityTextBuffer);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Add Entity"))
+		{
+			if (strlen(scene->entityTextBuffer) > 0)
+			{
+				scene->CreateEntity(scene->entityTextBuffer);
+				memset(scene->entityTextBuffer, 0, sizeof(scene->entityTextBuffer));
 			}
 		}
 
-		// Generate OpenGL texture and upload the resized image data
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		ImGui::End();
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-		// Upload the resized image data to OpenGL
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, resized_image_data);
-
-		// Free the original image data and resized image data
-		stbi_image_free(image_data);
-		delete[] resized_image_data;
-
-		return texture;
+		// Render entities within the scene
+		int entityCounter = 0;
+		for (auto& entity : scene->m_mEntities)
+		{
+			RenderEntity(entity.first, xPos + 50, yPos + (entityCounter * entityPadding) + 150);
+			entityCounter++;
+		}
 	}
-	
+
+	// Render a single entity
+	void CoreModule::RenderEntity(const std::string& entityName, float xPos, float yPos)
+	{
+		ImGui::SetNextWindowSize(ImVec2(250.0f, 0.0f)); // Fixed width, auto-resize height
+		ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
+		ImGui::SetNextWindowBgAlpha(0.2f); // Semi-transparent background
+
+		ImGui::Begin(entityName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs);
+
+		// Display entity details
+		ImGui::Text("Entity Name: %s", entityName.c_str());
+
+		ImGui::End();
+	}
+
 	GLuint LoadTexture(const char* filename)
 	{
 		int width, height, channels;
@@ -315,55 +270,6 @@ namespace CoreModule {
 
 		return texture;
 	}
-
-	void CoreModule::AddAlphaChannel(unsigned char*& image_data, int& width, int& height, int& channels)
-	{
-		if (channels == 4)
-		{
-			// Already has an alpha channel; no modification needed
-			return;
-		}
-
-		// Create a new buffer for RGBA data
-		unsigned char* rgba_data = new unsigned char[width * height * 4]; // 4 channels (R, G, B, A)
-
-		for (int y = 0; y < height; ++y)
-		{
-			for (int x = 0; x < width; ++x)
-			{
-				int src_index = (y * width + x) * channels;
-				int dst_index = (y * width + x) * 4;
-
-				// Copy RGB channels
-				rgba_data[dst_index + 0] = image_data[src_index + 0]; // Red
-				rgba_data[dst_index + 1] = (channels > 1) ? image_data[src_index + 1] : image_data[src_index + 0]; // Green
-				rgba_data[dst_index + 2] = (channels > 2) ? image_data[src_index + 2] : image_data[src_index + 0]; // Blue
-
-				// Add opaque alpha channel
-				rgba_data[dst_index + 3] = 255; // Alpha
-			}
-		}
-
-		// Free the original image data and replace it with the new RGBA data
-		stbi_image_free(image_data);
-		image_data = rgba_data;
-		channels = 4; // Update channels to 4
-	}
-
-
-
-	// Render image using ImGui
-	void CoreModule::RenderImage(std::string i_imageAddress)
-	{
-		GLuint textureID = LoadTextureFromFile(i_imageAddress.c_str());
-
-		if (textureID)
-		{
-			// Pass textureID directly as ImTextureID, no need for casting
-			ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2(200, 200));
-		}
-	}
-
 
 	void CoreModule::RenderImageBackground(GLuint i_textureID)
 	{

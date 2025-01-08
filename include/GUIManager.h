@@ -11,13 +11,15 @@ namespace CoreModule {
 	
 	static constexpr bool USING_SDL2 = true;
 	static constexpr bool USING_OPENGL3 = true;
-	GLuint LoadTextureFromFile(const char* filename);
 	GLuint LoadTexture(const char* filename);
-	void AddAlphaChannel(unsigned char*& image_data, int& width, int& height, int& channels);
-	void RenderImage(std::string i_imageAddress);
 	void RenderImageBackground(GLuint i_textureID);
 	void InitializeData();
-	
+	void ConfigureImGuiStyle(ImGuiStyle& style);
+	void RenderBackground();
+	void RenderScenesAndEntities(const ImVec2& displaySize, ImGuiStyle& style);
+	void RenderFPSCounter(const ImVec2& displaySize);
+	void RenderScene(const std::string& sceneName, const std::shared_ptr<Scene>& scene, float xPos, float yPos, float entityPadding);
+	void RenderEntity(const std::string& entityName, float xPos, float yPos);
 
 	class GUIManager
 	{
