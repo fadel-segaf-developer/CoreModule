@@ -191,11 +191,12 @@ namespace CoreModule {
 	// Render a single scene and its entities
 	void CoreModule::RenderScene(const std::string& sceneName, const std::shared_ptr<Scene>& scene, float xPos, float yPos, float entityPadding)
 	{
-		ImGui::SetNextWindowSize(ImVec2(300.0f, 0.0f)); // Fixed width, auto-resize height
+		// Parent window configuration
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 400.0f)); // Fixed size for the parent window
 		ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Semi-transparent background
 
-		ImGui::Begin(sceneName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
+		ImGui::Begin(sceneName.c_str(), nullptr, ImGuiWindowFlags_NoCollapse);
 
 		// Display scene details
 		ImGui::Text("Scene Name: %s", sceneName.c_str());
@@ -217,30 +218,37 @@ namespace CoreModule {
 			}
 		}
 
-		ImGui::End();
+		// Add spacing before the child window
+		ImGui::Spacing();
 
-		// Render entities within the scene
-		int entityCounter = 0;
+		// Render entities in a scrollable child window
+		ImVec2 childSize(ImGui::GetContentRegionAvail().x, 0); // Fixed height for scrollbar
+		ImGui::BeginChild("Entities", childSize, true, ImGuiWindowFlags_None);
+
 		for (auto& entity : scene->m_mEntities)
 		{
-			RenderEntity(entity.first, xPos + 50, yPos + (entityCounter * entityPadding) + 150);
-			entityCounter++;
+			ImGui::Text("Entity Name: %s", entity.first.c_str());
+			ImGui::Spacing(); // Adds spacing between entities
 		}
+
+		ImGui::EndChild();
+		ImGui::End();
 	}
+
+
+
+
 
 	// Render a single entity
 	void CoreModule::RenderEntity(const std::string& entityName, float xPos, float yPos)
 	{
-		ImGui::SetNextWindowSize(ImVec2(250.0f, 0.0f)); // Fixed width, auto-resize height
-		ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
-		ImGui::SetNextWindowBgAlpha(0.2f); // Semi-transparent background
+		//ImGui::SetNextWindowSize(ImVec2(250.0f, 0.0f)); // Fixed width, auto-resize height
+		//ImGui::SetNextWindowPos(ImVec2(xPos, yPos));
+		//ImGui::SetNextWindowBgAlpha(0.2f); // Semi-transparent background
 
-		ImGui::Begin(entityName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs);
+		//ImGui::Begin(entityName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs);
 
-		// Display entity details
-		ImGui::Text("Entity Name: %s", entityName.c_str());
-
-		ImGui::End();
+		
 	}
 
 	GLuint LoadTexture(const char* filename)
