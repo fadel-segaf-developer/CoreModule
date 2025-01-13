@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ChronoMaster.h" />
+    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\CoreLogic.h" />
     <ClInclude Include="include\CoreModule.h" />
     <ClInclude Include="include\EntityManager.h" />
@@ -158,6 +159,9 @@
     <ProjectReference Include="..\ImGuiLib\ImGuiLib.vcxproj">
       <Project>{869bec33-3441-48cc-b9ec-3623362ea323}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
