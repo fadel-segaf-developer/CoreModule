@@ -71,5 +71,17 @@
     <ClInclude Include="include\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\IWindowManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IRenderingManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowManagerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFWManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

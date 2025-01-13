@@ -36,16 +36,15 @@ namespace CoreModule {
 		// Initialize ImGui
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
 		ImGui::StyleColorsDark();
 		ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 		ImGui_ImplOpenGL3_Init("#version 130");
 
-		InitializeData();
-	}
+		
 
-	void CoreModule::InitializeData()
-	{
-		ImGuiIO& io = ImGui::GetIO();
+		//initialize data
+
 		const char* fontPath = "C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/Font/TT Octosquares Trial Condensed ExtraLight.ttf";
 
 		// Load the font and add it to the font atlas
@@ -53,7 +52,6 @@ namespace CoreModule {
 
 		BackgroundTextureID = LoadTexture("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/bg.png");
 	}
-	
 
 
 	void CoreModule::CustomWindow()
@@ -88,6 +86,8 @@ namespace CoreModule {
 
 		// --- Render Scenes and Entities ---
 		RenderScenesAndEntities(displaySize, style);
+
+		ImGui::ShowDemoWindow();
 
 		// --- Finalize ImGui frame ---
 		ImGui::Render();

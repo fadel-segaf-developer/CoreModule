@@ -13,7 +13,6 @@ namespace CoreModule {
 	static constexpr bool USING_OPENGL3 = true;
 	GLuint LoadTexture(const char* filename);
 	void RenderImageBackground(GLuint i_textureID);
-	void InitializeData();
 	void ConfigureImGuiStyle(ImGuiStyle& style);
 	void RenderBackground();
 	void RenderScenesAndEntities(const ImVec2& displaySize, ImGuiStyle& style);
