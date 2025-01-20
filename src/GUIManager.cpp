@@ -2,6 +2,7 @@
 #include "GUIManager.h"
 #include "CoreModule.h"
 #include "stb_image.h"
+#include "Config.h"
 
 namespace CoreModule {
 
@@ -9,7 +10,7 @@ namespace CoreModule {
 	SDL_Window* window;
 	SDL_GLContext gl_context;
 	int windowWidth, windowHeight;
-	GLuint BackgroundTextureID;
+	GLuint BackgroundTextureID = LoadTexture("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/bg.png");
 
 
 	void CoreModule:: InitializeWindow(int width, int height, const char* windowName)
@@ -38,7 +39,6 @@ namespace CoreModule {
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::StyleColorsDark();
-		ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 		ImGui_ImplOpenGL3_Init("#version 130");
 
 		
@@ -50,7 +50,7 @@ namespace CoreModule {
 		// Load the font and add it to the font atlas
 		io.Fonts->AddFontFromFileTTF(fontPath, 25.0f);  // 16.0f is the font size
 
-		BackgroundTextureID = LoadTexture("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/bg.png");
+		
 	}
 
 
@@ -70,7 +70,6 @@ namespace CoreModule {
 
 		// --- Start the ImGui frame ---
 		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame();
 		ImGui::NewFrame();
 
 		// Get the display size and prepare styles
@@ -79,7 +78,7 @@ namespace CoreModule {
 		ConfigureImGuiStyle(style);
 
 		// --- Render Background ---
-		RenderBackground();
+		//RenderBackground();
 
 		// --- Render FPS Counter ---
 		RenderFPSCounter(displaySize);
@@ -107,18 +106,20 @@ namespace CoreModule {
 	}
 
 	// Render the background as a fullscreen image
-	void CoreModule::RenderBackground()
+	void CoreModule::RenderBackground(float windowWidth, float windowHeight)
 	{
-		ImGui::SetNextWindowSize(ImVec2((float)windowWidth, (float)windowHeight));
+		ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight));
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowBgAlpha(0.0f); // Fully transparent background
 
 		ImGui::Begin("Background", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
 			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
 
+		BackgroundTextureID = LoadTexture("C:/Users/FRYS-017/OneDrive/Documents/INDIVIDUAL PROJECTS/C++/CoreModule/bg.png");
+
 		// Bind and render the background texture
 		glBindTexture(GL_TEXTURE_2D, BackgroundTextureID);
-		RenderImageBackground(BackgroundTextureID);
+		RenderImageBackground(BackgroundTextureID, ImVec2(windowWidth,windowHeight));
 
 		ImGui::End();
 	}
@@ -279,7 +280,7 @@ namespace CoreModule {
 		return texture;
 	}
 
-	void CoreModule::RenderImageBackground(GLuint i_textureID)
+	void CoreModule::RenderImageBackground(GLuint i_textureID, ImVec2 size)
 	{
 		if (i_textureID)
 		{
@@ -289,7 +290,7 @@ namespace CoreModule {
 			ImGui::GetWindowDrawList()->AddImage(
 				(ImTextureID)(intptr_t)i_textureID,           // Texture ID
 				windowPos,                            // Image position (top-left corner of the window)
-				ImVec2(windowPos.x + windowWidth, windowPos.y + windowHeight), // Bottom-right corner (stretched to the actual window size)
+				ImVec2(windowPos.x + size.x, windowPos.y + size.y), // Bottom-right corner (stretched to the actual window size)
 				ImVec2(0, 0),                         // Top-left texcoord
 				ImVec2(1, 1),                         // Bottom-right texcoord
 				IM_COL32(255, 255, 255, 255)          // White color for no tint
@@ -305,7 +306,6 @@ namespace CoreModule {
 	{
 		// Cleanup
 		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplSDL2_Shutdown();
 		ImGui::DestroyContext();
 		SDL_GL_DeleteContext(gl_context);
 		SDL_DestroyWindow(window);

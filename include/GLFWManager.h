@@ -3,8 +3,10 @@
 #ifndef GLFW_MANAGER_H
 #define GLFW_MANAGER_H
 
-#include "IWindowManager.h"
+#include <GL/glew.h>  // Include GLFW for window management
 #include <GLFW/glfw3.h>  // Include GLFW for window management
+#include "IWindowManager.h"
+
 #include <imgui.h>  // Include ImGui
 #include <backends/imgui_impl_glfw.h>  // GLFW bindings for ImGui
 #include <backends/imgui_impl_opengl3.h>  // OpenGL bindings for ImGui

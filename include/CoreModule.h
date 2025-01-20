@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SceneManager.h"
 
+
 namespace CoreModule {
 	void InitializeWindow(int width, int height, const char* windowName);
 	void Start();

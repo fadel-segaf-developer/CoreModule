@@ -50,7 +50,6 @@ namespace CoreModule {
 
         // Create the window
         windowManager->Init(config.windowWidth,config.windowHeight,config.windowTitle.c_str());
-
        // std::shared_ptr<Scene> s1 =sceneManager->addScene("Scene1");
         //s1->CreateEntity("crazy man");
        // std::shared_ptr<Scene> s2 = sceneManager->addScene("Scene2");
@@ -61,8 +60,13 @@ namespace CoreModule {
         while (!windowManager->ShouldClose()) {
             if (chronoMaster.IsTimeUpdate())
             {
+                // Debug frame timing
+                FPS = chronoMaster.DebugFrameRendered();
+
                 EntityManager::UpdateAll();
                 windowManager->NewFrame();
+                CoreModule::RenderBackground(config.windowWidth, config.windowHeight);
+                CoreModule::RenderFPSCounter(ImVec2(config.windowWidth, config.windowHeight));
                 windowManager->Render();
                 
             }
